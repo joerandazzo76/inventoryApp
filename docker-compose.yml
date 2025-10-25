@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    container_name: https://github.com/joerandazzo76/inventoryApp.git-web
+    ports:
+      - "8080:80"
+    # volumes:
+      # - ./app:/var/www/app
+    depends_on:
+      - mssql
+    environment:
+      DB_DSN: "${DB_DSN}"
+      DB_USER: "${DB_USER}"
+      DB_PASS: "${DB_PASS}"
+      BASE_URL: "${BASE_URL}"
+    networks:
+      - invnet
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: inventory-mssql
+    environment:
+      ACCEPT_EULA: "${ACCEPT_EULA}"
+      SA_PASSWORD: "${SA_PASSWORD}"
+      MSSQL_PID: "${MSSQL_PID}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - invnet
+
+  workbench:
+    image: lscr.io/linuxserver/mysql-workbench:latest
+    container_name: sql-workbench
+    environment:
+      TZ: America/New_York
+    volumes:
+      - ./workbench:/config
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mssql
+    networks:
+      - invnet
+
+networks:
+  invnet:
+    driver: bridge
+
+volumes:
+  mssql_data:
