@@ -17,7 +17,7 @@ $csrf = csrf_token();
 </head>
 <body class="bg-gray-100 text-gray-900">
   <div class="max-w-5xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-4">Inventory Apprrrrrrrrrrrrrrrrr</h1>
+    <h1 class="text-3xl font-bold mb-4">Inventory App</h1>
     <nav class="flex gap-3 mb-6">
       <a class="px-3 py-2 bg-white shadow rounded hover:bg-gray-50" href="bins.php">Bins</a>
       <a class="px-3 py-2 bg-white shadow rounded hover:bg-gray-50" href="items.php">Items</a>

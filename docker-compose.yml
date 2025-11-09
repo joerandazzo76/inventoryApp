@@ -6,8 +6,10 @@ services:
     container_name: inventoryapp-web
     ports:
       - "8080:80"
-      # volumes:
-      # - ./app:/var/www/app
+    volumes:
+      - ./app:/var/www/app
+      - ./public:/var/www/html
+      - ./.env:/var/www/.env
     depends_on:
       - mssql
     environment:
@@ -15,6 +17,7 @@ services:
       DB_USER: "${DB_USER}"
       DB_PASS: "${DB_PASS}"
       BASE_URL: "${BASE_URL}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
     networks:
       - invnet
 
