@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: .devcontainer/Dockerfile
-    container_name: https://github.com/joerandazzo76/inventoryApp.git-web
+    container_name: inventoryapp-web
     ports:
       - "8080:80"
       # volumes:
