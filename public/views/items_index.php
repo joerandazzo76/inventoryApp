@@ -23,21 +23,91 @@ $csrf = csrf_token();
       } else { alert(data.error || 'Upload failed'); }
     }
     async function autoFill() {
-      const fd = new FormData();
-      fd.append('action','autofill');
-      fd.append('csrf', document.querySelector('input[name=csrf]').value);
-      fd.append('image_path', document.querySelector('input[name=image_path]').value);
-      fd.append('vendor_url', document.querySelector('input[name=vendor_url]').value);
-      fd.append('hint', document.querySelector('input[name=title]').value);
-      const res = await fetch('items.php', { method: 'POST', body: fd });
-      const data = await res.json();
-      if (data.error) { alert(data.error); return; }
-      if (data.title && !document.querySelector('input[name=title]').value) document.querySelector('input[name=title]').value = data.title;
-      if (data.description && !document.querySelector('input[name=description]').value) document.querySelector('input[name=description]').value = data.description;
-      if (data.vendor && !document.querySelector('input[name=vendor]').value) document.querySelector('input[name=vendor]').value = data.vendor;
-      if (data.bin_number_suggestion) {
-        const opt = [...document.querySelector('select[name=bin_id]').options].find(o => o.dataset.number == data.bin_number_suggestion);
-        if (opt) document.querySelector('select[name=bin_id]').value = opt.value;
+      try {
+        const imagePath = document.querySelector('input[name=image_path]').value;
+        const vendorUrl = document.querySelector('input[name=vendor_url]').value;
+        
+        if (!imagePath && !vendorUrl) {
+          alert('Please upload an image or enter a vendor URL first');
+          return;
+        }
+        
+        // Show loading indicator
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Analyzing...';
+        btn.disabled = true;
+        
+        const fd = new FormData();
+        fd.append('action','autofill');
+        fd.append('csrf', document.querySelector('input[name=csrf]').value);
+        fd.append('image_path', imagePath || '');
+        fd.append('vendor_url', vendorUrl || '');
+        fd.append('hint', document.querySelector('input[name=title]').value || '');
+        
+        const res = await fetch('items.php', { method: 'POST', body: fd });
+        
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        console.log('Auto-fill response:', data);
+        
+        if (data.error) { 
+          alert(data.error); 
+          return; 
+        }
+        
+        // Fill in the form fields (only if empty)
+        if (data.title && !document.querySelector('input[name=title]').value) {
+          document.querySelector('input[name=title]').value = data.title;
+        }
+        if (data.description && !document.querySelector('input[name=description]').value) {
+          document.querySelector('input[name=description]').value = data.description;
+        }
+        if (data.vendor && !document.querySelector('input[name=vendor]').value) {
+          document.querySelector('input[name=vendor]').value = data.vendor;
+        }
+        if (data.product_id && !document.querySelector('input[name=product_id]').value) {
+          document.querySelector('input[name=product_id]').value = data.product_id;
+        }
+        if (data.quantity && !document.querySelector('input[name=quantity]').value) {
+          document.querySelector('input[name=quantity]').value = data.quantity;
+        }
+        if (data.price && !document.querySelector('input[name=price]').value) {
+          document.querySelector('input[name=price]').value = data.price;
+        }
+        
+        // Set bin suggestion
+        if (data.bin_number_suggestion) {
+          const opt = [...document.querySelector('select[name=bin_id]').options].find(o => o.dataset.number == data.bin_number_suggestion);
+          if (opt) document.querySelector('select[name=bin_id]').value = opt.value;
+        }
+        
+        // Show success message
+        let message = 'Auto-fill completed!';
+        if (data.vision_analysis === 'completed') {
+          message += ' (AI Vision analysis included)';
+        } else if (data.vision_error) {
+          message += '\n\nNote: Vision analysis failed: ' + data.vision_error;
+        } else if (data.vision_analysis === 'skipped - API key not configured') {
+          message += '\n\nNote: Configure OpenAI API key for AI vision analysis';
+        }
+        if (data.scrape_error) {
+          message += '\n\nNote: URL scraping failed: ' + data.scrape_error;
+        }
+        alert(message);
+        
+      } catch (error) {
+        console.error('Auto-fill error:', error);
+        alert('Auto-fill failed: ' + error.message);
+      } finally {
+        // Restore button
+        if (typeof btn !== 'undefined') {
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }
       }
     }
   </script>
@@ -110,7 +180,7 @@ $csrf = csrf_token();
               <button type="button" onclick="autoFill()" class="px-3 py-2 bg-emerald-600 text-white rounded">Auto-fill (beta)</button>
               <button class="px-3 py-2 bg-blue-600 text-white rounded">Save Item</button>
             </div>
-            <p class="text-xs text-gray-500">Auto-fill uses simple heuristics + Open Graph scraping. Vision model integration hook is in code.</p>
+            <p class="text-xs text-gray-500">Auto-fill uses AI vision (GPT-4), Open Graph scraping, and keyword matching to suggest item details and bin.</p>
           </div>
         </div>
       </div>
