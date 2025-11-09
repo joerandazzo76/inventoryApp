@@ -15,7 +15,7 @@ class ItemController {
     public function index() {
         $list = $this->items->all();
         $bins = $this->bins->all();
-        include __DIR__ . '/../../public/views/items_index.php';
+        include __DIR__ . '/../../html/views/items_index.php';
     }
 
     public function save() {
