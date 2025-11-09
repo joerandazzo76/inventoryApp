@@ -34,6 +34,7 @@ WORKDIR /var/www
 COPY ./app /var/www/app
 COPY ./public /var/www/html
 COPY ./sql /var/www/sql
+COPY ./.env /var/www/.env
 
 # Create uploads directory
 RUN mkdir -p /var/www/html/uploads \
