@@ -11,6 +11,35 @@ A simple inventory/bin-tracking web app with CRUD for Bins and Items, image uplo
 - Works with Microsoft SQL Server.
 
 ## Quick Start
+
+### Option 1: Docker (Recommended)
+
+1. **Clone and setup:**
+   ```bash
+   git clone https://github.com/joerandazzo76/inventoryApp.git
+   cd inventoryApp
+   cp .env.example .env
+   ```
+
+2. **Start the containers:**
+   ```bash
+   docker-compose up --build
+   ```
+   Wait for SQL Server to fully start (30-60 seconds).
+
+3. **Initialize the database:**
+   Connect to SQL Server at `localhost:1433` with user `sa` and password `YourStrong!Passw0rd`, then:
+   ```sql
+   CREATE DATABASE inventory_app;
+   GO
+   ```
+   Run the schema from `sql/schema.sql`.
+
+4. **Access the app:**
+   Open http://localhost:8080 in your browser.
+
+### Option 2: Manual Setup
+
 1. **Requirements**
    - PHP 8.1+ with `sqlsrv` and/or `pdo_sqlsrv` extensions enabled
    - Microsoft SQL Server (local or remote)

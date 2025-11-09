@@ -1,0 +1,28 @@
+# Environment files
+.env
+
+# Docker volumes
+mssql_data/
+workbench/
+
+# Uploads
+public/uploads/*
+!public/uploads/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+vendor/
+composer.lock
+
+# Logs
+*.log

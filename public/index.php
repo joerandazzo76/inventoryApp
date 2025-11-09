@@ -1,6 +1,6 @@
 <?php
 // public/index.php
-require_once('/var/www/app/helpers.php');
+require_once(__DIR__ . '/../app/helpers.php');
 
 
 
