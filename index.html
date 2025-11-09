@@ -1,9 +1,171 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>GitHub Pages</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory App - PHP Inventory Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Welcome to GitHub Pages!</h1>
-    <p>This is the default page for the GitHub Pages site for the inventoryApp repository.</p>
+<body class="bg-gray-100">
+    <div class="max-w-4xl mx-auto p-6">
+        <!-- Header -->
+        <header class="bg-white shadow rounded-lg p-6 mb-6">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Inventory App</h1>
+            <p class="text-xl text-gray-600">A simple PHP inventory/bin-tracking web app with image upload and auto-fill capabilities</p>
+        </header>
+
+        <!-- Features Section -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Features</h2>
+            <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                    <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span><strong>Bins CRUD</strong> - Each bin has a number and optional category label</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span><strong>Items CRUD</strong> - Title, description, vendor, price, product ID, URL, quantity, bin assignment</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span><strong>Photo Upload</strong> - Store item images under <code class="bg-gray-100 px-1 rounded">public/uploads/</code></span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span><strong>Auto-fill (Beta)</strong> - Suggest bin based on keywords and fetch OpenGraph metadata from URLs</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span><strong>Pure PHP</strong> - PDO SQLSRV + simple HTML (Tailwind CDN), no framework required</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span><strong>Microsoft SQL Server</strong> - Works with SQL Server databases</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Requirements Section -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Requirements</h2>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>PHP 8.1+ with <code class="bg-gray-100 px-1 rounded">sqlsrv</code> and/or <code class="bg-gray-100 px-1 rounded">pdo_sqlsrv</code> extensions enabled</li>
+                <li>Microsoft SQL Server (local or remote)</li>
+                <li>A web server (Apache/Nginx) - Point your doc root to <code class="bg-gray-100 px-1 rounded">public/</code></li>
+            </ul>
+        </div>
+
+        <!-- Quick Start Section -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Quick Start</h2>
+            <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                <li>
+                    <strong>Database Setup</strong>
+                    <ul class="list-disc list-inside ml-6 mt-1 space-y-1">
+                        <li>Create a database (e.g., <code class="bg-gray-100 px-1 rounded">inventory_app</code>)</li>
+                        <li>Run the schema: <code class="bg-gray-100 px-1 rounded">sql/schema.sql</code></li>
+                        <li>Update DB credentials in <code class="bg-gray-100 px-1 rounded">app/config.php</code></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Deploy</strong>
+                    <ul class="list-disc list-inside ml-6 mt-1 space-y-1">
+                        <li>Place this folder on your server</li>
+                        <li>Set document root to <code class="bg-gray-100 px-1 rounded">public/</code></li>
+                        <li>Visit <code class="bg-gray-100 px-1 rounded">http://localhost/</code></li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Technology Stack</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="border border-gray-200 rounded-lg p-4 text-center">
+                    <div class="text-3xl mb-2">🐘</div>
+                    <div class="font-semibold">PHP 8.1+</div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 text-center">
+                    <div class="text-3xl mb-2">🗄️</div>
+                    <div class="font-semibold">SQL Server</div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 text-center">
+                    <div class="text-3xl mb-2">🎨</div>
+                    <div class="font-semibold">Tailwind CSS</div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 text-center">
+                    <div class="text-3xl mb-2">📦</div>
+                    <div class="font-semibold">PDO SQLSRV</div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 text-center">
+                    <div class="text-3xl mb-2">🖼️</div>
+                    <div class="font-semibold">Image Upload</div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 text-center">
+                    <div class="text-3xl mb-2">🤖</div>
+                    <div class="font-semibold">Auto-fill (Beta)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auto-Fill Feature -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-blue-900 mb-4">🤖 Auto-Fill from Image (Vision) – Pluggable</h2>
+            <p class="text-gray-700 mb-3">The app includes a stub <code class="bg-white px-1 rounded">VisionController::autoFill()</code> that:</p>
+            <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
+                <li>Suggests a bin based on category keyword matching in the file name or a provided hint</li>
+                <li>If you provide a Vendor URL, it fetches Open Graph metadata to prefill Title/Description</li>
+            </ul>
+            <p class="text-gray-700 mt-3">Hooks are ready in <code class="bg-white px-1 rounded">app/VisionProviders/</code> to add:</p>
+            <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4 mt-2">
+                <li>OpenAI/Azure vision calls</li>
+                <li>Local ONNX/CLIP pipeline</li>
+            </ul>
+        </div>
+
+        <!-- Security Note -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-yellow-900 mb-3">⚠️ Security Notes</h2>
+            <p class="text-gray-700">Basic input validation and CSRF-lite tokens are included, but <strong>not production-hardened</strong>. If you expose publicly, add auth, rate limits, stricter validation, and CSRF protections.</p>
+        </div>
+
+        <!-- Links Section -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Links</h2>
+            <div class="space-y-3">
+                <a href="https://github.com/joerandazzo76/inventoryApp" class="flex items-center text-blue-600 hover:text-blue-800">
+                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="font-semibold">View on GitHub</span>
+                </a>
+                <a href="public/test.html" class="flex items-center text-blue-600 hover:text-blue-800">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                    <span class="font-semibold">Test Page</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-600 mt-8 pb-6">
+            <p class="mb-2">MIT License - Do what you want, no warranty.</p>
+            <p class="text-sm">This is a PHP application that requires a web server to run. GitHub Pages serves this documentation as static content.</p>
+        </footer>
+    </div>
 </body>
 </html>
