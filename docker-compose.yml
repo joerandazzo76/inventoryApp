@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   web:
     build:
@@ -8,7 +6,7 @@ services:
     container_name: https://github.com/joerandazzo76/inventoryApp.git-web
     ports:
       - "8080:80"
-    # volumes:
+      # volumes:
       # - ./app:/var/www/app
     depends_on:
       - mssql
