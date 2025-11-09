@@ -2,6 +2,7 @@
 // app/Controllers/VisionController.php
 require_once __DIR__ . '/../helpers.php';
 require_once __DIR__ . '/../VisionProviders/OpenGraphScraper.php';
+require_once __DIR__ . '/../VisionProviders/OpenAIVision.php';
 
 class VisionController {
     private PDO $db;
@@ -59,8 +60,52 @@ class VisionController {
             }
         }
 
-        // TODO: (C) Vision model integration (OpenAI/Azure/local) to recognize item, count quantity, etc.
-        // Hook here. You could POST image bytes to a Python microservice, or call an API.
+        // (C) Vision model integration using OpenAI GPT-4 Vision
+        if ($imagePath && file_exists($imagePath)) {
+            try {
+                $apiKey = getenv('OPENAI_API_KEY');
+                if ($apiKey) {
+                    $vision = new OpenAIVision($apiKey);
+                    $visionData = $vision->analyzeImage($imagePath, $hint);
+                    
+                    // Merge vision data with suggestions (vision takes priority if not already set)
+                    if (!$suggested['title'] && $visionData['title']) {
+                        $suggested['title'] = $visionData['title'];
+                    }
+                    if (!$suggested['description'] && $visionData['description']) {
+                        $suggested['description'] = $visionData['description'];
+                    }
+                    if (!$suggested['vendor'] && $visionData['vendor']) {
+                        $suggested['vendor'] = $visionData['vendor'];
+                    }
+                    if (!$suggested['product_id'] && $visionData['product_id']) {
+                        $suggested['product_id'] = $visionData['product_id'];
+                    }
+                    if ($visionData['quantity']) {
+                        $suggested['quantity'] = $visionData['quantity'];
+                    }
+                    
+                    // Use vision category to refine bin suggestion if not already set
+                    if (!$suggested['bin_number_suggestion'] && $visionData['category']) {
+                        $category = strtolower($visionData['category']);
+                        foreach ($this->config['categories'] as $binNum => $keywords) {
+                            foreach ($keywords as $kw) {
+                                if ($kw && str_contains($category, $kw)) {
+                                    $suggested['bin_number_suggestion'] = $binNum;
+                                    break 2;
+                                }
+                            }
+                        }
+                    }
+                    
+                    $suggested['vision_analysis'] = 'completed';
+                } else {
+                    $suggested['vision_analysis'] = 'skipped - API key not configured';
+                }
+            } catch (Throwable $e) {
+                $suggested['vision_error'] = $e->getMessage();
+            }
+        }
 
         echo json_encode($suggested);
     }
