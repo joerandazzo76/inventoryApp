@@ -43,7 +43,9 @@ RUN mkdir -p /var/www/html/uploads \
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+    && chmod -R 755 /var/www/html \
+    && chown www-data:www-data /var/www/.env \
+    && chmod 664 /var/www/.env
 
 # Expose port 80
 EXPOSE 80
