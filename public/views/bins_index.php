@@ -1,6 +1,4 @@
-<?php
-require_once __DIR__ . '/../../app/helpers.php';
-$csrf = csrf_token();
+<?php $csrf = csrf_token();
 ?><!doctype html>
 <html lang="en">
 <head>
