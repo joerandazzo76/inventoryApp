@@ -9,7 +9,7 @@ class BinController {
 
     public function index() {
         $list = $this->bins->all();
-        include '/var/www/html/views/bins_index.php';
+        include __DIR__ . '/../../public/views/bins_index.php';
     }
 
     public function save() {
