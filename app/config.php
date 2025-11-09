@@ -5,8 +5,8 @@ return [
     'db' => [
         // Example for SQL Server PDO:
         // On Windows, ensure you have the pdo_sqlsrv extension.
-        // DSN format: "sqlsrv:Server=localhost,1433;Database=inventory_app"
-        'dsn' => $_ENV['DB_DSN'] ?? 'sqlsrv:Server=mssql,1433;Database=inventory_app',
+        // DSN format: "sqlsrv:Server=localhost,1433;Database=inventory_app;TrustServerCertificate=yes"
+        'dsn' => $_ENV['DB_DSN'] ?? 'sqlsrv:Server=mssql,1433;Database=inventory_app;TrustServerCertificate=yes',
         'user' => $_ENV['DB_USER'] ?? 'sa',
         'pass' => $_ENV['DB_PASS'] ?? 'YourStrong!Passw0rd',
         'options' => [
